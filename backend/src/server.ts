@@ -1,15 +1,30 @@
-import express from "express"; // import express library
-const app = express(); // app is our server
-// const port = 5000; // Define a port; a connection point on a server
-const port = undefined;
+import "dotenv/config"; // Connects dotenv file
+import mongoose from "mongoose";
+import express from "express";
+import env from "./util/validateEnv";
+const app = express(); // server
 
 // Arrow function; a function without a name
-app.get("/",(req,res) => {
+app.get("/", (req, res) => {
     res.send("Hello, World!");
 });
 
-// Start the server
-// Setting "port" to "port!" tells the compiler that port variable will always have a int value
-app.listen(port, () => {
-    console.log("Server returning on port: " + port);
-});
+// Init port variable
+const port = env.PORT;
+
+// Connect database
+// .connect returns a promise
+mongoose.connect(env.MONGO_CONNECTION_STRING)
+    .then(() => {
+        // After connection succeeded
+        console.log("Mongoose connected. ");
+
+        // Start the server
+        app.listen(port, () => {
+            console.log("Server returning on port: " + port);
+        });
+    })
+    // Catch error and output error message
+    .catch(console.error);
+
+
