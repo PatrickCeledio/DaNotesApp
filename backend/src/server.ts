@@ -1,16 +1,8 @@
-import "dotenv/config"; // Connects dotenv file
-import mongoose from "mongoose";
-import express from "express";
+import app from "./app";
 import env from "./util/validateEnv";
-const app = express(); // server
+import mongoose from "mongoose";
 
-// Arrow function; a function without a name
-app.get("/", (req, res) => {
-    res.send("Hello, World!");
-});
-
-// Init port variable
-const port = env.PORT;
+const port = env.PORT; // Init port variable
 
 // Connect database
 // .connect returns a promise
