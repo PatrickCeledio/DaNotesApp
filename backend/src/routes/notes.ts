@@ -1,3 +1,8 @@
+/*
+    Author: Patrick Celedio
+    Description: Endpoint routing for notes
+*/
+
 import express from "express";
 import * as NotesController from "../controllers/notes";
 
@@ -11,6 +16,13 @@ const router = express.Router();
 // .get() retrieves data from the server
 router.get("/", NotesController.getNotes);
 
+// noteid is a variable, whatever we put behind the / will be read by express
+// and put into the request object in order to read it in our getNote endpoint
+// and lookup specific note with matching id
+// /:noteid will be accessed by req.params.noteId
+router.get("/:noteId", NotesController.getNote);
+
 // .port() sends data to the server
 router.post("/", NotesController.createNote);
+
 export default router;
