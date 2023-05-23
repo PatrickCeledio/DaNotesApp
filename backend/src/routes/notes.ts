@@ -19,7 +19,8 @@ router.get("/", NotesController.getNotes);
 // noteid is a variable, whatever we put behind the / will be read by express
 // and put into the request object in order to read it in our getNote endpoint
 // and lookup specific note with matching id
-// /:noteid will be accessed by req.params.noteId
+// /:noteId will be accessed by req.params.noteId
+// Example of what takes place in ":noteId" == 646ad646318244e23d21d701
 router.get("/:noteId", NotesController.getNote);
 
 // .port() sends data to the server

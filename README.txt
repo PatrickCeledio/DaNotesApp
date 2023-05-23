@@ -15,3 +15,4 @@ eslint
 dotenv
 nodemon
 envalid
+morgan

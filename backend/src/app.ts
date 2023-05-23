@@ -1,8 +1,14 @@
 import "dotenv/config"; // Connects dotenv file
 import express, { NextFunction, Request, Response } from "express";
 import notesRoutes from "./routes/notes";
+import morgan from "morgan";
 
 const app = express(); // server
+
+// morgan displays helpful HTTP logging in the console
+// Set to "dev" for specific logs
+// Prints "GET /api/notes/646ad646318244e23d21d701 200 67.537 ms - 172" to console
+app.use(morgan("dev"));
 
 app.use(express.json()); 
 
