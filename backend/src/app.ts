@@ -2,6 +2,7 @@ import "dotenv/config"; // Connects dotenv file
 import express, { NextFunction, Request, Response } from "express";
 import notesRoutes from "./routes/notes";
 import morgan from "morgan";
+import createHttpError, { isHttpError } from "http-errors";
 
 const app = express(); // server
 
@@ -19,20 +20,31 @@ app.use("/api/notes", notesRoutes);
 
 // We reach this middleware if none of our routes fits
 app.use((req, res, next) => {
-    next(Error("Endpoint not found"));
+    next(createHttpError(404, "Endpoint not found"));
 });
 
 // Error handler
+// Takes in data suspected as an error, and req, res, next.
 // Request, Response, and NextFunction must be from the express package
 app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
     console.error(error);
     let errorMessage = "An unknown error occured. Yikes.";
+    let statusCode = 500; 
 
-    // Check error is actually an Error data type
+    /* Deprecated basic error handling code
+    //Check error is actually an Error data type
     if (error instanceof Error) errorMessage = error.message;
 
-    // Return 500 - Internal Service Error
+    //Return 500 - Internal Service Error
     res.status(500).json({ error: errorMessage });
+    */
+
+    if (isHttpError(error)) {
+        statusCode = error.status;
+        errorMessage = error.message;
+    }
+
+    res.status(statusCode).json({ error: errorMessage });
 });
 
 export default app;
