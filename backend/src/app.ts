@@ -31,7 +31,7 @@ app.use((error: unknown, req: Request, res: Response, next: NextFunction) => {
     // Check error is actually an Error data type
     if (error instanceof Error) errorMessage = error.message;
 
-    // Return error 
+    // Return 500 - Internal Service Error
     res.status(500).json({ error: errorMessage });
 });
 
